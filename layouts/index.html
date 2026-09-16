@@ -1,0 +1,10 @@
+{{ define "main" }}
+  {{- $about := site.GetPage "/about" -}}
+  {{- if $about -}}
+    {{ partial "post-main.html" $about }}
+  {{- else -}}
+    <div class="posts">
+      <p>No homepage content configured.</p>
+    </div>
+  {{- end -}}
+{{ end }}

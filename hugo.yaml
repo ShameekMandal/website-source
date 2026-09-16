@@ -1,0 +1,55 @@
+baseURL: "https://shameekmandal.github.io/"
+title: "Shameek Mandal"
+theme: "terminal"
+languageCode: "en-us"
+# Publish pages even when their date is later today (Hugo uses UTC midnight).
+buildFuture: true
+
+params:
+  # Theme options: "orange", "blue", "red", "green", "pink"
+  themeColor: "pink" 
+  # Full-width terminal layout (edge-to-edge content)
+  fullWidthTheme: true
+  # Default image shown when a page has no cover photo
+  photoPlaceholder: "images/IMG_3958.jpeg"
+  # Text shown in the terminal's command prompt header
+  logoText: "shameek@psu-stats:~$" 
+  
+  # Load KaTeX (see layouts/partials/extended_head.html)
+  math: true
+  showReadingTime: true
+  social:
+    github: "https://github.com/ShameekMandal/"
+    linkedin: "https://linkedin.com/in/shameekmandal"
+    email: "sxm6974@psu.edu"
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+    extensions:
+      passthrough:
+        enable: true
+        delimiters:
+          block:
+            - - '$$'
+              - '$$'
+            - - '\\['
+              - '\\]'
+          inline:
+            - - '$'
+              - '$'
+            - - '\\('
+              - '\\)'
+
+menu:
+  main:
+    - name: "About"
+      url: "/"
+      weight: 1
+    - name: " Academic & Professional Journey"
+      url: "/journey/"
+      weight: 2
+    - name: "Projects"
+      url: "/projects/"
+      weight: 3

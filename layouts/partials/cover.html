@@ -1,0 +1,50 @@
+{{- $page := . -}}
+{{- $coverMode := "landscape" -}}
+
+{{- if reflect.IsMap . -}}
+  {{- $page = .Page -}}
+  {{- $coverMode = default "landscape" .CoverMode -}}
+{{- else -}}
+  {{- $coverMode = lower (default "landscape" $page.Params.coverMode) -}}
+{{- end -}}
+
+{{- if not (in (slice "portrait" "landscape") $coverMode) -}}
+  {{- $coverMode = "landscape" -}}
+{{- end -}}
+
+{{- if $page.Params.hideCover -}}
+{{- else -}}
+  {{- $cover := false -}}
+
+  {{- if index $page.Params "cover" -}}
+    {{- if $page.Resources.GetMatch $page.Params.Cover -}}
+      {{- $cover = ($page.Resources.GetMatch $page.Params.Cover).RelPermalink -}}
+    {{- else -}}
+      {{- $cover = absURL $page.Params.Cover -}}
+    {{- end -}}
+  {{- else if default $page.Site.Params.autoCover false -}}
+    {{- if $page.Resources.GetMatch "cover.*" -}}
+      {{- $cover = ($page.Resources.GetMatch "cover.*").RelPermalink -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- if $cover -}}
+    <figure class="post-cover-frame post-cover-frame--{{ $coverMode }}">
+      <img
+        src="{{ $cover }}"
+        class="post-cover post-cover--{{ $coverMode }}"
+        alt="{{ $page.Title | plainify | default " " }}"
+        title="{{ $page.Params.CoverCredit | plainify | default "Cover image" }}" />
+    </figure>
+  {{- else -}}
+    {{- $placeholder := $page.Site.Params.photoPlaceholder | default "images/photo-placeholder.svg" -}}
+    <figure class="post-cover-placeholder post-cover-frame post-cover-frame--{{ $coverMode }}" aria-label="Photo placeholder">
+      <img
+        src="{{ $placeholder | absURL }}"
+        class="post-cover post-cover--placeholder post-cover--{{ $coverMode }}"
+        alt="Photo placeholder for {{ $page.Title | plainify }}"
+        title="Add a photo: set cover: filename.jpg in page front matter" />
+      <figcaption class="post-cover-placeholder__label">photo placeholder</figcaption>
+    </figure>
+  {{- end -}}
+{{- end -}}
